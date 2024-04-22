@@ -90,6 +90,7 @@ set shiftwidth=4
 set smarttab
 set autoindent
 set expandtab
+autocmd FileType make setlocal noexpandtab
 
 " Always display the status line
 set laststatus=2

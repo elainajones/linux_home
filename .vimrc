@@ -83,6 +83,8 @@ noremap <Right> <Nop>
 "     fn + w
 noremap <C-z> <Nop>
 noremap <f> <Nop>
+" Disable f1 key for help because I bump it too often.
+noremap <f1> <Nop>
 
 " Set Proper Tabs
 set tabstop=4

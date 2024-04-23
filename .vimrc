@@ -74,9 +74,17 @@ set t_co=256
 
 " Disable arrow key navigation.
 noremap <Up> <Nop>
+inoremap <Up> <Nop>
+vnoremap <Up> <Nop>
 noremap <Down> <Nop>
+inoremap <Down> <Nop>
+vnoremap <Down> <Nop>
 noremap <Left> <Nop>
+inoremap <Left> <Nop>
+vnoremap <Left> <Nop>
 noremap <Right> <Nop>
+inoremap <Right> <Nop>
+vnoremap <Right> <Nop>
 
 " Disable accidental termination.
 "     ctrl + z
@@ -85,6 +93,7 @@ noremap <C-z> <Nop>
 noremap <f> <Nop>
 " Disable f1 key for help because I bump it too often.
 noremap <f1> <Nop>
+inoremap <f1> <Nop>
 
 " Set Proper Tabs
 set tabstop=4

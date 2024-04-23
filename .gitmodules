@@ -13,3 +13,6 @@
 [submodule ".vim/pack/default/start/vim-gitgutter"]
 	path = .vim/pack/default/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "bin"]
+	path = bin
+	url = https://www.github.com/elainajones/bash_bin.git

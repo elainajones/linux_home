@@ -148,6 +148,17 @@ print_connections() {
     GREEN='\033[0;32m';
     NC='\033[0m'; # No color
 
+    connections+="#"`
+        `"\t$(pad_var "NAME" 20)"`
+        `"\t$(pad_var "HOST" 15)"`
+        `"\t$(pad_var "NOTE" 24)"`
+        `"\t$(pad_var "OS" 7)"`
+        `"\t$(pad_var "STATUS" 7)\n";
+
+    connections+=""`
+        `"------------------------------------------------------------"`
+        `"----------------------------------------------------\n";
+
     for i in ${!HEADERS[@]}; do
         h=${HEADERS[$i]};
         
@@ -187,13 +198,13 @@ print_connections() {
             fi
         fi
 
-        host="$(pad_var "$host" 15)";
         h="$(pad_var "$h" 20)";
-        note="$(pad_var "($note)" 24)";
+        host="$(pad_var "$host" 15)";
+        note="$(pad_var "$note" 24)";
         os="$(pad_var "$os" 7)";
         nc_status="$(pad_var "$nc_status" 7)";
 
-        connections+="[$i]\t$host\t$h\t$note\t$os\t$nc_status\n";
+        connections+="$i\t$h\t$host\t$note\t$os\t$nc_status\n";
     done         
 
     printf "$connections";

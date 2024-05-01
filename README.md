@@ -13,5 +13,6 @@ My Linux home configs for convenient setup on new systems.
 ## Usage
 
 ```sh
-git clone --recurse-submodules -j4 https://github.com/elainajones/linux_home.git ~/
+git clone --recurse-submodules -j4 https://github.com/elainajones/linux_home.git
+cp -ruTv linux_home/ ~/
 ```

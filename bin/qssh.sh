@@ -1,5 +1,27 @@
 #! /bin/bash
 
+#[example]
+##Minimum configs
+#hostname = '10.23.0.123'
+#user = 'foo'
+#password = 'foobar'
+#note = 'Example connection'
+#
+## Optional to override defauls / set extended behavior
+#
+## SSH port number
+#port = 22
+## For externam connections
+#use_proxy = true
+## Use existing ssh config like `ssh <host>`
+#ssh_config = 'example'
+## Also check rdp port status to inform if booted to Windows (we assume)
+#dual_boot = true
+## Optional way to disable the config (you can also commend the block)
+#enabled = false
+## Optional args for ssh
+#options = '-c aes<t_co>-cbc'
+
 parse_toml() {
     declare config_path=$1;
     declare -gA CONFIG=();

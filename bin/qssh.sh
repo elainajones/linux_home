@@ -7,11 +7,11 @@
 #password = 'foobar'
 #note = 'Example connection'
 #
-## Optional to override defauls / set extended behavior
+## Optional to override defaults / set extended behavior
 #
 ## SSH port number
 #port = 22
-## For externam connections
+## For external connections
 #use_proxy = true
 ## Use existing ssh config like `ssh <host>`
 #ssh_config = 'example'
@@ -20,7 +20,7 @@
 ## Optional way to disable the config (you can also commend the block)
 #enabled = false
 ## Optional args for ssh
-#options = '-c aes<t_co>-cbc'
+#options = '-c aes256-cbc'
 
 parse_toml() {
     declare config_path=$1;

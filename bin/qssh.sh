@@ -297,6 +297,7 @@ main() {
 
                 # Set defaults
                 [[ "$port" ]] || port=22;
+                ssh_args+=" -p $port";
                 ssh_args+=" ${CONFIG["${h}.options"]}";
 
                 if [[ "${CONFIG["$h.ssh_config"]}" ]]; then

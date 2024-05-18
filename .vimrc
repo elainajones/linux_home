@@ -32,7 +32,6 @@ let g:NERTreeMapActivateNode="<F3>"
 let g:NERDTreeMapPreview="<F4>"
 
 nmap xecute "NERDTree"
-
 " }}}
 " GitGutter Colors {{{
 let g:gitgutter_override_sign_column_highlight = 0
@@ -86,9 +85,7 @@ noremap <Right> <Nop>
 inoremap <Right> <Nop>
 vnoremap <Right> <Nop>
 
-" Disable accidental termination.
-"     ctrl + z
-"     fn + w
+" Disable accidental termination (ctrl + z, fn + w)
 noremap <C-z> <Nop>
 noremap <f> <Nop>
 " Disable f1 key for help because I bump it too often.
@@ -101,6 +98,7 @@ set shiftwidth=4
 set smarttab
 set autoindent
 set expandtab
+" Fix for Makefile tabs
 autocmd FileType make setlocal noexpandtab
 
 " Always display the status line
@@ -109,22 +107,48 @@ set laststatus=2
 set showmatch                   
 " Better command line completion
 set wildmode=list:longest,longest:full
-" Show linenumbers
+
+" Line numbers
 set number
 set ruler
+highlight LineNr ctermfg=darkgrey
 
 " Highlight config
-highlight LineNr ctermfg=darkgrey
-highlight Folded ctermbg=NONE
 highlight Normal guibg=NONE ctermbg=NONE
+
+" Cursor
 set cursorline
 highlight CursorLineNR ctermbg=None cterm=bold
 highlight CursorLine ctermbg=None
+" Remap up and down movement for wrapped lines so eveything lines up.
+" This is safe since the behavior is the same 
+" for non-wrapped lines.
+vnoremap j gj
+noremap j gj
+vnoremap k gk
+noremap k gk
+
+
+" Verical split
 set fillchars+=vert:\ 
 highlight VertSplit ctermfg=None ctermbg=None
+
+" Set spelling for text and markdown files
+" - Pressing z= with the cursor over a word in normal mode will open word 
+"   selection
+" - Pressing zg with the cursor over a word in normal mode will add it to the
+"   dictionary
+" - Pressing zw with the cursor over a word in normal mode will mark it as 
+"   incorrect
+hi clear SpellBad
+hi SpellBad cterm=underline
+autocmd FileType markdown setlocal spell spelllang=en_us
+autocmd FileType text setlocal spell spelllang=en_us
+
 " Use marker as fold method
-set foldmethod=marker
 set foldtext=MyFoldText()
+set foldmethod=marker
+highlight Folded ctermbg=NONE
 
 " Functions
 function! MyFoldText()

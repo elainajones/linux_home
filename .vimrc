@@ -70,6 +70,8 @@ highlight GitGutterChangeDelete ctermfg=4 ctermbg=none
 set t_u7=
 " Use at least 256 colors.
 set t_co=256
+" Do not visually wrap lines (easier for split pane work)
+set nowrap
 
 " Disable arrow key navigation.
 noremap <Up> <Nop>

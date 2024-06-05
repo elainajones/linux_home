@@ -145,6 +145,7 @@ highlight VertSplit ctermfg=None ctermbg=None
 hi clear SpellBad
 hi SpellBad cterm=underline
 autocmd FileType markdown setlocal spell spelllang=en_us
+autocmd FileType gitcommit setlocal spell spelllang=en_us
 autocmd FileType text setlocal spell spelllang=en_us
 
 " Use marker as fold method

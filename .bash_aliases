@@ -41,6 +41,50 @@ passgen() {
     echo $pass | less;
 }
 
+cstash() {
+    path="$PWD/${1}";
+    data="/home/$(whoami)/bin/cstash.dat";
+    mkdir -p $(dirname $data) && touch $data;
+    source $data;
+    
+    if ! [[ "$1" ]]; then
+        true
+    elif [[ -e "$path" ]]; then
+        CSTASH+=("$path");
+
+        printf "CSTASH=(\n" > $data;
+        for i in ${!CSTASH[@]}; do
+            path="${CSTASH[$i]}";
+            printf "\t\"$path\"\n" >> $data;
+        done
+        printf ")" >> $data;
+
+        echo "Stashed $path";
+    fi
+}
+
+cpop() {
+    declare data="/home/$(whoami)/bin/cstash.dat";
+    mkdir -p $(dirname $data) && touch $data;
+    source $data;
+
+    if [[ ${#CSTASH[@]} > 0 ]]; then
+        path="${CSTASH[-1]}";
+        cp -rvp $path $PWD
+        unset 'CSTASH[-1]';
+        echo "${CSTASH[@]}"
+
+        printf "CSTASH=(\n" > $data;
+        for i in ${!CSTASH[@]}; do
+            path="${CSTASH[$i]}";
+            printf "\t\"$path\"\n" >> $data;
+        done
+        printf ")" >> $data;
+    else
+        echo "Stash is empty";
+    fi
+}
+
 ovpn() {
     declare opt=$1;
     declare root_dir="/etc/openvpn/ovpn-locations";

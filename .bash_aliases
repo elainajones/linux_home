@@ -211,3 +211,13 @@ md2pdf() {
         -o "$2"
 }
 
+# WSL
+#alias p='/mnt/c/Program\ Files/PowerShell/7/pwsh.exe'
+#wmv() {
+#    temp="$(mktemp -d -p /mnt/c/Users/v-elajones/AppData/Local/Temp/)";
+#    cp -rpT $PWD $temp;
+#    cd $temp;
+#    qcd -d temp
+#    qcd -a temp
+#    p;
+#}

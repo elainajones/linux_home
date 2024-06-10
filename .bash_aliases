@@ -1,13 +1,16 @@
+if [[ -f ~/bin/qcd-SOURCEME.sh ]]; then
+    source ~/bin/qcd-SOURCEME.sh;
+fi
+
+alias c='clear'
 alias la='ls -AX --color --classify --group-directories-first'
 alias lla='ls -lAshLX --color --classify --group-directories-first'
-
 alias les='less -~KMQR-'
 
-# Yes, I'm that lazy.
-alias c='clear'
 alias sba='source ~/.bash_aliases; exec bash'
 alias vba='vim ~/.bash_aliases'
 alias vsc='vim ~/.ssh/config'
+
 alias gpge='gpg --armour -e'
 
 # (un)mount mtp devices (ie Android)
@@ -17,16 +20,16 @@ alias ummtp='fusermount -u ~/mtp/'
 alias oprts='sudo netstat -ntupl'
 
 alias ghist='history | grep'
+alias gba='grep -P "^alias" ~/.bash_aliases'
 
-
-if [[ -f ~/bin/qcd-SOURCEME.sh ]]; then
-    source ~/bin/qcd-SOURCEME.sh;
-fi
-
+# Functions:
+# grepin {{{
 grepin() {
     declare pattern="$1";
     grep -Rinw "." -e "$pattern";
 }
+# }}}
+# passgen {{{
 passgen() {
     declare pw_len=${1:-20};
     # Extra presets for dumb char restrictions.
@@ -46,7 +49,8 @@ passgen() {
     
     echo $pass | less;
 }
-
+# }}}
+# cstash/cpop {{{
 cstash() {
     path="$PWD/${1}";
     data="/home/$(whoami)/bin/cstash.dat";
@@ -68,7 +72,6 @@ cstash() {
         echo "Stashed $path";
     fi
 }
-
 cpop() {
     declare data="/home/$(whoami)/bin/cstash.dat";
     mkdir -p $(dirname $data) && touch $data;
@@ -90,7 +93,8 @@ cpop() {
         echo "Stash is empty";
     fi
 }
-
+# }}}
+# ovpn {{{
 ovpn() {
     declare opt=$1;
     declare root_dir="/etc/openvpn/ovpn-locations";
@@ -107,7 +111,8 @@ ovpn() {
         echo "Invalid option"
     fi
 }
-
+# }}}
+# doff {{{
 doff() {
     declare opt=${1:-"-h"};
 
@@ -122,7 +127,8 @@ doff() {
     fi
     unset opt;
 }
-
+# }}}
+# chrootm {{{
 chrootm() {
     declare opt=${1:-"-h"};
 
@@ -146,19 +152,21 @@ chrootm() {
     
     unset opt
 }
-
-# Dumb fix if the mouse broke after hibernation on Debian.
-# Keeping this just in case.
+# }}}
+# remouse {{{
 remouse() {
+    # Dumb fix if the mouse broke after hibernation on Debian.
+    # Keeping this just in case.
     sudo modprobe -r usbhid;
     sudo modprobe -r psmouse;
     sudo modprobe usbhid;
     sudo modprobe psmouse;
 }
-
-# I forgot how this works
-# TODO: Some sort of help?
+# }}}
+# mcc {{{
 mcc() {
+    # I forgot how this works
+    # TODO: Some sort of help?
     declare path_in=${1};
     declare old_hex=${2};
     declare new_hex=${3};
@@ -171,7 +179,8 @@ mcc() {
             -alpha activate $path_out/$i;
     done;
 }
-
+# }}}
+# tres {{{
 tres() {
     if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
         echo "Usage: tres [dir:-pwd] [depth:-2] [optional tree flag]"
@@ -180,8 +189,9 @@ tres() {
             -L ${2:-2} -I ".git|*.swp" ${1:-$pwd} | \
             less -~KMQR-;
     fi
-};
-
+}
+#}}}
+# lac {{{
 lac() {
     declare -i total=$(la ${1:-$pwd} | wc -l);
     declare -i f_num=$(find ${1:-$pwd} -maxdepth 1 -type f | wc -l);
@@ -199,7 +209,8 @@ lac() {
         fi
     ), $total total";
 }
-
+# }}}
+# md2pdf {{{
 md2pdf() {
     pandoc "$1" \
         -f gfm \
@@ -216,9 +227,12 @@ md2pdf() {
         --css=github-pandoc.css \
         -o "$2"
 }
+# }}}
 
 # WSL
 #alias p='/mnt/c/Program\ Files/PowerShell/7/pwsh.exe'
+#alias e='/mnt/c/Windows/explorer.exe .'
+#alias npp='/mnt/c/Program\ Files/Notepad++/notepad++.exe'
 #wmv() {
 #    temp="$(mktemp -d -p /mnt/c/Users/v-elajones/AppData/Local/Temp/)";
 #    cp -rpT $PWD $temp;

@@ -17,10 +17,15 @@ alias oprts='sudo netstat -ntupl'
 
 alias ghist='history | grep'
 
+
 if [[ -f ~/bin/qcd-SOURCEME.sh ]]; then
     source ~/bin/qcd-SOURCEME.sh;
 fi
 
+grepin() {
+    declare pattern="$1";
+    grep -Rinw "." -e "$pattern";
+}
 passgen() {
     declare pw_len=${1:-20};
     # Extra presets for dumb char restrictions.

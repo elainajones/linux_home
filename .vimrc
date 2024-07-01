@@ -48,30 +48,30 @@ highlight GitGutterChangeDelete ctermfg=4 ctermbg=none
 "" Show EOL type and last modified timestamp, right after the filename
 "" Set the statusline...
 "" ...filename relative to current $PWD
-"set statusline=%f               
+"set statusline=%f
 "" ...help file flag
-"set statusline+=%h              
+"set statusline+=%h
 "" ...modified flag
-"set statusline+=%m              
+"set statusline+=%m
 "" ...readonly flag
-"set statusline+=%r              
+"set statusline+=%r
 "" ...fileformat [unix]/[dos] etc...
-"set statusline+=\ [%{&ff}]      
+"set statusline+=\ [%{&ff}]
 "" ...last modified timestamp
-"set statusline+=\ (%{strftime(\"%H:%M\ %d/%m/%Y\",getftime(expand(\"%:p\")))})  
+"set statusline+=\ (%{strftime(\"%H:%M\ %d/%m/%Y\",getftime(expand(\"%:p\")))})
 "" ...Rest: right align
-"set statusline+=%=              
+"set statusline+=%=
 "" ...position in buffer: linenumber, column, virtual column
-"set statusline+=%l,%c%V         
+"set statusline+=%l,%c%V
 "" ...position in buffer: Percentage
-"set statusline+=\ %P            
+"set statusline+=\ %P
 
 " Fix for starting in replace mode.
 set t_u7=
 " Use at least 256 colors.
 set t_co=256
 " Do not visually wrap lines (easier for split pane work)
-set nowrap
+set wrap
 
 " Disable arrow key navigation.
 noremap <Up> <Nop>
@@ -106,7 +106,7 @@ autocmd FileType make setlocal noexpandtab
 " Always display the status line
 set laststatus=2
 " Automatically show matching brackets. works like it does in bbedit.
-set showmatch                   
+set showmatch
 " Better command line completion
 set wildmode=list:longest,longest:full
 
@@ -117,6 +117,10 @@ highlight LineNr ctermfg=darkgrey
 
 " Highlight config
 highlight Normal guibg=NONE ctermbg=NONE
+highlight ColorColumn ctermbg=red
+call matchadd('ColorColumn', '\%81v', 100)
+highlight TrailingWhitespace ctermbg=red
+match TrailingWhitespace /\s\+$/
 
 " Cursor
 set cursorline

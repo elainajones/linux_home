@@ -4,7 +4,6 @@
 " Load plugins first so vimrc configs can override for changes
 " Gruvbox (colorscheme) config {{{
 " I honestly forgot what these are for
-syntax on
 set background=dark
 let g:gruvbox_transparent_bg = '1'
 let g:gruvbox_bold = '1'
@@ -40,6 +39,49 @@ highlight GitGutterDelete ctermfg=1 ctermbg=none
 highlight GitGutterChangeDelete ctermfg=4 ctermbg=none
 " }}}
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+" Do not visually wrap lines (easier for split pane work)
+set wrap
+set nocompatible
+" Fix for starting in replace mode.
+set t_u7=
+" Use at least 256 colors.
+set t_co=256
+set number
+set cursorline
+set ruler
+" Always display the status line
+set laststatus=2
+" Automatically show matching brackets. works like it does in bbedit.
+set showmatch
+" Better command line completion
+set wildmode=list:longest,longest:full
+" Use marker as fold method (see Functions section)
+set foldtext=MyFoldText()
+set foldmethod=marker
+highlight Folded ctermbg=NONE
+" :W sudo saves the file
+" Useful for handling the permission-denied error
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+" Ignore case when searching
+set ignorecase
+" Linebreak on 80 characters
+set linebreak
+set textwidth=80
+set autoindent
+set smartindent
+set hlsearch
+" Enable syntax highlighting
+syntax enable
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keymapping
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -68,6 +110,13 @@ vnoremap j gj
 noremap j gj
 vnoremap k gk
 noremap k gk
+" Use ctr + h, j, k, l to move between windows
+" map <C-h> <C-W>h
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-l> <C-W>l
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabs
@@ -76,33 +125,9 @@ noremap k gk
 set tabstop=4
 set shiftwidth=4
 set smarttab
-set autoindent
 set expandtab
 " Fix for Makefile tabs since it can be picky
 autocmd FileType make setlocal noexpandtab
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Defaults
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Do not visually wrap lines (easier for split pane work)
-set wrap
-set nocompatible
-" Fix for starting in replace mode.
-set t_u7=
-" Use at least 256 colors.
-set t_co=256
-set number
-set ruler
-" Always display the status line
-set laststatus=2
-" Automatically show matching brackets. works like it does in bbedit.
-set showmatch
-" Better command line completion
-set wildmode=list:longest,longest:full
-" Use marker as fold method (see Functions section)
-set foldtext=MyFoldText()
-set foldmethod=marker
-highlight Folded ctermbg=NONE
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Highlight config
@@ -111,8 +136,7 @@ highlight Folded ctermbg=NONE
 highlight LineNr ctermfg=darkgrey
 highlight Normal guibg=NONE ctermbg=NONE
 " Cursor highlight
-set cursorline
-highlight CursorLineNR ctermbg=None cterm=bold
+highlight CursorLinenr ctermbg=None cterm=bold
 highlight CursorLine ctermbg=None
 " Highlight columns over 80 chars
 highlight ColorColumn ctermbg=red
@@ -124,11 +148,12 @@ call matchadd('TrailingWhitespace', '\s\+$', 100)
 highlight CommaWhiteSpace ctermbg=magenta
 call matchadd('CommaWhiteSpace', ',\w', 100)
 " Verical split
-set fillchars+=vert:\
+set fillchars+=vert:\ 
 highlight VertSplit ctermfg=None ctermbg=None
 " Spell check highlighting
 highlight clear SpellBad
 highlight SpellBad cterm=underline
+" Highlight search results
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell check
@@ -158,6 +183,15 @@ function! MyFoldText()
     let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
     return '+'. repeat('-', 4) . line_text . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L)'
 endfunction
+" Delete trailing white space on save, useful for some filetypes ;)
+function! CleanExtraSpaces()
+let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfun
+autocmd BufWritePre *.py,*.sh,*.robot,*.md :call CleanExtraSpaces()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unused (for reference)

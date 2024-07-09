@@ -22,10 +22,6 @@ set laststatus=2
 set showmatch
 " Better command line completion
 set wildmode=list:longest,longest:full
-" Use marker as fold method (see Functions section)
-set foldtext=MyFoldText()
-set foldmethod=marker
-highlight Folded ctermbg=NONE
 " :W sudo saves the file
 " Useful for handling the permission-denied error
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
@@ -152,6 +148,10 @@ highlight VertSplit ctermfg=None ctermbg=None
 highlight clear SpellBad
 highlight SpellBad cterm=underline
 " Highlight search results
+" Use marker as fold method (see Functions section)
+set foldtext=MyFoldText()
+set foldmethod=marker
+highlight Folded ctermbg=NONE
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell check

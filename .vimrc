@@ -35,7 +35,6 @@ set ignorecase
 set linebreak
 set textwidth=80
 set autoindent
-set smartindent
 set hlsearch
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8

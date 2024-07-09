@@ -1,4 +1,46 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+" Do not visually wrap lines (easier for split pane work)
+set wrap
+set nocompatible
+" Fix for starting in replace mode.
+set t_u7=
+" Use at least 256 colors.
+set t_co=256
+set number
+set cursorline
+set ruler
+" Always display the status line
+set laststatus=2
+" Automatically show matching brackets. works like it does in bbedit.
+set showmatch
+" Better command line completion
+set wildmode=list:longest,longest:full
+" Use marker as fold method (see Functions section)
+set foldtext=MyFoldText()
+set foldmethod=marker
+highlight Folded ctermbg=NONE
+" :W sudo saves the file
+" Useful for handling the permission-denied error
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+" Ignore case when searching
+set ignorecase
+" Linebreak on 80 characters
+set linebreak
+set textwidth=80
+set autoindent
+set smartindent
+set hlsearch
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Load plugins first so vimrc configs can override for changes
@@ -38,49 +80,6 @@ highlight GitGutterChange ctermfg=3 ctermbg=none
 highlight GitGutterDelete ctermfg=1 ctermbg=none
 highlight GitGutterChangeDelete ctermfg=4 ctermbg=none
 " }}}
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-" Do not visually wrap lines (easier for split pane work)
-set wrap
-set nocompatible
-" Fix for starting in replace mode.
-set t_u7=
-" Use at least 256 colors.
-set t_co=256
-set number
-set cursorline
-set ruler
-" Always display the status line
-set laststatus=2
-" Automatically show matching brackets. works like it does in bbedit.
-set showmatch
-" Better command line completion
-set wildmode=list:longest,longest:full
-" Use marker as fold method (see Functions section)
-set foldtext=MyFoldText()
-set foldmethod=marker
-highlight Folded ctermbg=NONE
-" :W sudo saves the file
-" Useful for handling the permission-denied error
-command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
-" Ignore case when searching
-set ignorecase
-" Linebreak on 80 characters
-set linebreak
-set textwidth=80
-set autoindent
-set smartindent
-set hlsearch
-" Enable syntax highlighting
-syntax enable
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keymapping

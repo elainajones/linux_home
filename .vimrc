@@ -105,10 +105,10 @@ noremap j gj
 vnoremap k gk
 noremap k gk
 " Use ctr + h, j, k, l to move between windows
-" map <C-h> <C-W>h
-" map <C-j> <C-W>j
-" map <C-k> <C-W>k
-" map <C-l> <C-W>l
+map <C-h> <C-W>h
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-l> <C-W>l
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
 

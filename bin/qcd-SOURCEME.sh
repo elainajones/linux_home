@@ -127,11 +127,7 @@ qcd() {
                 # Remove quotes from header names.
                 # Due to limitations of data types in bash (of which this script)
                 # is already exploiting, all tablenames are strings anyway.
-                h="$(echo "$h" | tr -d "\"\'")"
-                if ! [[ "$val" ]]; then
-                    # Don't save undefined variables.
-                    continue;
-                elif [[ "${CONFIG[$h]}" ]]; then
+                if [[ "${CONFIG[$h]}" ]]; then
                     # Append key if key list is not empty.
                     CONFIG["$h"]+=" ${key}";
                 else
@@ -256,8 +252,7 @@ qcd() {
         # Don't overwrite existing shortcuts
         if [[ "$shortcut" ]]; then
             if ! [[ "${CONFIG[$shortcut]}" ]]; then
-                CONFIG_HEADERS+=("$shortcut");
-                CONFIG["$shortcut"]="path run_after run_before";
+                CONFIG["$shortcut"]='path run_after run_before';
                 CONFIG["${shortcut}.path"]="$PWD";
                 CONFIG["${shortcut}.run_after"]="";
                 CONFIG["${shortcut}.run_before"]="";
@@ -315,6 +310,8 @@ qcd() {
     parse_args "$@";
     declare arg_count=($@);
     declare arg_count=${#arg_count[@]};
+    #declare -gA CONFIG=();
+    #declare -g CONFIG_HEADERS=();
 
     declare config_path=~/bin/qcd.toml;
     mkdir -p $(dirname $config_path);
@@ -373,7 +370,9 @@ qcd() {
             if [[ $? == 0 ]]; then
                 dir_name="${CONFIG["${shortcut}.path"]}";
                 if [[ -d "$dir_name" ]]; then
+                    eval "${CONFIG["${shortcut}.run_before"]}";
                     cd "$dir_name";
+                    eval "${CONFIG["${shortcut}.run_after"]}";
                 else
                     echo "No such directory";
                 fi

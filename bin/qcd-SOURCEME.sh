@@ -143,16 +143,87 @@ qcd() {
         done
     }
     parse_toml_table() {
-        return 0
+        declare config_path=$1;
+        declare header_name="$2";
+        declare -gA CONFIG=();
+        # Filter out comments so they aren't interpreted.
+        declare lines="$(grep -oP "^[^#].+" $config_path)";
+        # Match everything between `[` and `]` as table headers.
+        declare headers=($(grep -oP "(?<=^\[)\S+?(?=\])" $config_path));
+        for h_index in ${!headers[@]}; do
+            if [[ "${headers[$i]}" == "$header_name" ]]; then
+                break
+            fi
+        done
+        if [[ $h_index -ge 0 ]]; then
+            h="${headers[$h_index]}";
+            next="${headers[$((h_index+1))]}";
+            declare table="$(echo "$lines" | \
+                tr "\n" " " | \
+                grep -oP "\[$h\].+?(?=(\[$next\]|\Z))" \
+            )";
+            declare keys=($(\
+                echo "$table" | \
+                tr "\n" " " | \
+                grep -oP "\S+\s?(?==)" | \
+                grep -oP "\S.*" | grep -oP ".*\S" \
+            ));
+            # Iterate through table string, matching everything between
+            # key and following key as key value.
+            for i in $(seq 1 ${#keys[@]}); do
+                declare key="${keys[$((i-1))]}";
+                # 1. Use variable keys to match everything up to the next
+                #    variable key as the variable value.
+                # 2. Match everything to the right of the `=` sign.
+                # 3. Remove leading/trailing whitespace.
+    	        # 4. Remove quotes from strings conditionally.
+                declare val="$(\
+                    echo "$table" | \
+                    tr "\n" " " | \
+                    grep -oP "(?<=${key})\s?=.+?(?=${keys[$i]}(\s?=|\Z))" | \
+                    grep -oP "(?<==).+" | \
+                    grep -oP "\S.*" | grep -oP ".*\S" | \
+                    grep -oP "(?<=\"|\'|\b).+(?=\"|\'|\b)" \
+                )";
+
+                # Remove quotes from header names.
+                # Due to limitations of data types in bash (of which this script)
+                # is already exploiting, all tablenames are strings anyway.
+                h="$(echo "$h" | tr -d "\"\'")"
+                if ! [[ "$val" ]]; then
+                    # Don't save undefined variables.
+                    continue;
+                elif [[ "${CONFIG[$h]}" ]]; then
+                    # Append key if key list is not empty.
+                    CONFIG["$h"]+=" ${key}";
+                else
+                    # Write key list with first key.
+                    CONFIG["$h"]="$key";
+                fi
+                # Define `header.key=value` keypairs.
+                CONFIG["${h}.${key}"]="$val";
+            done
+            return 0
+        fi
+        return 1
     }
     print_shortcuts() {
-        if [[ ${#CONFIG[@]} -eq 0 ]]; then
-            echo "No saved directories";
-        else
-            for h in ${CONFIG_HEADERS[@]}; do
-                val="${CONFIG["${h}.path"]}";
-                printf "$h\t$val\n";
+        declare config_path=$1;
+        declare lines="$(grep -oP "^[^#].+" $config_path)";
+        declare keys=($(echo "$lines" | grep -oP "(?<=^\[)\S+?(?=\])"));
+        declare vals=($(echo "$lines" | grep -oP "(?<=^path\b)\s+=.+" \
+            | grep -oP "(?<==).+" \
+            | grep -oP "\S.*" | grep -oP ".*\S" \
+            | grep -oP "(?<=\"|\'|\b).+(?=\"|\'|\b)" \
+        ));
+        if [[ ${#keys[@]} > 0 ]]; then
+            for i in $(seq 0 $((${#keys[@]}-1))); do
+                key=${keys[$i]};
+                val=${vals[$i]};
+                printf "$key\t$val\n";
             done
+        else
+            echo "No saved directories";
         fi
     }
     read_config() {
@@ -183,6 +254,7 @@ qcd() {
         # Don't overwrite existing shortcuts
         if [[ "$shortcut" ]]; then
             if ! [[ "${CONFIG[$shortcut]}" ]]; then
+                CONFIG_HEADERS+=("$shortcut");
                 CONFIG["$shortcut"]="path run_after run_before";
                 CONFIG["${shortcut}.path"]="$PWD";
                 CONFIG["${key}.run_after"]="";
@@ -197,9 +269,15 @@ qcd() {
         declare shortcut="$1";
         if [[ "${CONFIG["$shortcut"]}" ]]; then
             for key in ${CONFIG["$shortcut"]}; do
-                unset CONFIG["${shortcut}.${key}"];
+                unset "CONFIG["${shortcut}.${key}"]";
             done
-            unset CONFIG["$shortcut"];
+            unset "CONFIG[$shortcut]";
+            for i in ${!CONFIG_HEADERS[@]}; do
+                if [[ "${CONFIG_HEADERS[$i]}" == "$shortcut" ]]; then
+                    unset "CONFIG_HEADERS[$i]";
+                    break
+                fi
+            done
             echo "Deleted '$shortcut'";
         else
             echo "No such shortcut";
@@ -215,7 +293,6 @@ qcd() {
         for key in ${!CONFIG[@]}; do
             CONFIG_HEADERS+=("$key")
             val="${CONFIG["$key"]}";
-            echo "$val"
             unset CONFIG["$key"];
             CONFIG["$key"]='path run_after run_before';
             CONFIG["${key}.path"]="$val";
@@ -230,7 +307,6 @@ qcd() {
 
     declare config_path=~/bin/qcd.toml;
     mkdir -p $(dirname $config_path);
-    read_config $config_path;
 
     for key in "${!ARGS[@]}"; do
         val="${ARGS[$key]}";
@@ -241,13 +317,17 @@ qcd() {
                 break;
                 ;;
             "-a")
+                val="$(echo $val | tr -d ' ')"
                 require_val "$key" "$val";
+                read_config $config_path;
                 add_shortcut "$val";
                 write_config $config_path;
                 break;
                 ;;
             "-d")
+                val="$(echo $val | tr -d ' ')"
                 require_val "$key" "$val";
+                read_config $config_path;
                 delete_shortcut "$val";
                 write_config $config_path;
                 break;
@@ -269,14 +349,16 @@ qcd() {
 
     if ! [[ "${!ARGS[@]}" ]]; then
         if [[ $arg_count -eq 0 ]]; then
-            print_shortcuts;
+            print_shortcuts $config_path;
         else
-            if [[ "${CONFIG["$@"]}" ]]; then
-                dir_name="${CONFIG["$@"]}";
+            shortcut="$@"
+            parse_toml_table $config_path "$shortcut"
+            if [[ $? == 0 ]]; then
+                dir_name="${CONFIG["${shortcut}.path"]}";
                 if [[ -d "$dir_name" ]]; then
                     cd "$dir_name";
                 else
-                    echo "Directory moved or missing";
+                    echo "No such directory";
                 fi
             else
                 echo "No such shortcut '$@'";

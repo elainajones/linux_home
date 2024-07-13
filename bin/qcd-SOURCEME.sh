@@ -37,6 +37,7 @@ qcd() {
             "  -a SHORTCUT\tAdd shortcut for current directory." \
             "  -d SHORTCUT\tDelete shortcut." \
             "  --update\tNEW! Updates legacy data file to TOML." \
+            "  --prune\tNEW! Remove all shortcuts with missing directories." \
         );
 
         for i in ${!lines[@]}; do
@@ -151,13 +152,13 @@ qcd() {
         # Match everything between `[` and `]` as table headers.
         declare headers=($(grep -oP "(?<=^\[)\S+?(?=\])" $config_path));
         for h_index in ${!headers[@]}; do
-            if [[ "${headers[$i]}" == "$header_name" ]]; then
+            if [[ "${headers[$h_index]}" == "$header_name" ]]; then
                 break
             fi
         done
         if [[ $h_index -ge 0 ]]; then
-            h="${headers[$h_index]}";
-            next="${headers[$((h_index+1))]}";
+            declare h="${headers[$h_index]}";
+            declare next="${headers[$((h_index+1))]}";
             declare table="$(echo "$lines" | \
                 tr "\n" " " | \
                 grep -oP "\[$h\].+?(?=(\[$next\]|\Z))" \
@@ -203,6 +204,7 @@ qcd() {
                 # Define `header.key=value` keypairs.
                 CONFIG["${h}.${key}"]="$val";
             done
+
             return 0
         fi
         return 1
@@ -257,13 +259,14 @@ qcd() {
                 CONFIG_HEADERS+=("$shortcut");
                 CONFIG["$shortcut"]="path run_after run_before";
                 CONFIG["${shortcut}.path"]="$PWD";
-                CONFIG["${key}.run_after"]="";
-                CONFIG["${key}.run_before"]="";
+                CONFIG["${shortcut}.run_after"]="";
+                CONFIG["${shortcut}.run_before"]="";
                 echo "Added '$shortcut'";
             else
                 echo "Shortcut already exists";
             fi
         fi
+
     }
     delete_shortcut() {
         declare shortcut="$1";
@@ -300,6 +303,14 @@ qcd() {
             CONFIG["${key}.run_before"]="";
         done
     }
+    prune_config() {
+        for h in ${CONFIG_HEADERS[@]}; do
+            # Write table header
+            if ! [[ -d "${CONFIG["${h}.path"]}" ]]; then
+                delete_shortcut "$h";
+            fi
+        done
+    }
 
     parse_args "$@";
     declare arg_count=($@);
@@ -313,6 +324,12 @@ qcd() {
         case $key in
             "--update")
                 update_config;
+                write_config $config_path;
+                break;
+                ;;
+            "--prune")
+                read_config $config_path;
+                prune_config;
                 write_config $config_path;
                 break;
                 ;;

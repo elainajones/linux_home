@@ -207,19 +207,21 @@ qcd() {
     }
     print_shortcuts() {
         declare config_path=$1;
-        declare lines="$(grep -oP "^[^#].+" $config_path)";
-        declare keys=($(echo "$lines" | grep -oP "(?<=^\[)\S+?(?=\])"));
-        declare vals=($(echo "$lines" | grep -oP "(?<=^path\b)\s+=.+" \
-            | grep -oP "(?<==).+" \
-            | grep -oP "\S.*" | grep -oP ".*\S" \
-            | grep -oP "(?<=\"|\'|\b).+(?=\"|\'|\b)" \
-        ));
-        if [[ ${#keys[@]} > 0 ]]; then
-            for i in $(seq 0 $((${#keys[@]}-1))); do
-                key=${keys[$i]};
-                val=${vals[$i]};
-                printf "$key\t$val\n";
-            done
+        if [[ -f $config_path ]]; then
+            declare lines="$(grep -oP "^[^#].+" $config_path)";
+            declare keys=($(echo "$lines" | grep -oP "(?<=^\[)\S+?(?=\])"));
+            declare vals=($(echo "$lines" | grep -oP "(?<=^path\b)\s+=.+" \
+                | grep -oP "(?<==).+" \
+                | grep -oP "\S.*" | grep -oP ".*\S" \
+                | grep -oP "(?<=\"|\'|\b).+(?=\"|\'|\b)" \
+            ));
+            if [[ ${#keys[@]} > 0 ]]; then
+                for i in $(seq 0 $((${#keys[@]}-1))); do
+                    key=${keys[$i]};
+                    val=${vals[$i]};
+                    printf "$key\t$val\n";
+                done
+            fi
         else
             echo "No saved directories";
         fi

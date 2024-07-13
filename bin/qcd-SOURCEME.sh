@@ -252,6 +252,7 @@ qcd() {
         # Don't overwrite existing shortcuts
         if [[ "$shortcut" ]]; then
             if ! [[ "${CONFIG[$shortcut]}" ]]; then
+                CONFIG_HEADERS+=($shortcut);
                 CONFIG["$shortcut"]='path run_after run_before';
                 CONFIG["${shortcut}.path"]="$PWD";
                 CONFIG["${shortcut}.run_after"]="";

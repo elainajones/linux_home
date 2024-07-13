@@ -147,12 +147,14 @@ qcd() {
         declare lines="$(grep -oP "^[^#].+" $config_path)";
         # Match everything between `[` and `]` as table headers.
         declare headers=($(grep -oP "(?<=^\[)\S+?(?=\])" $config_path));
-        for h_index in ${!headers[@]}; do
-            if [[ "${headers[$h_index]}" == "$header_name" ]]; then
+        unset h_index;
+        for i in ${!headers[@]}; do
+            if [[ "${headers[$i]}" == "$header_name" ]]; then
+                h_index=$i
                 break
             fi
         done
-        if [[ $h_index -ge 0 ]]; then
+        if [[ "$h_index" ]]; then
             declare h="${headers[$h_index]}";
             declare next="${headers[$((h_index+1))]}";
             declare table="$(echo "$lines" | \

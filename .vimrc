@@ -121,7 +121,10 @@ set shiftwidth=4
 set smarttab
 set expandtab
 " Fix for Makefile tabs since it can be picky
-autocmd FileType make setlocal noexpandtab
+augroup make_tabs
+    autocmd!
+    autocmd FileType make setlocal noexpandtab
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Highlight config
@@ -141,6 +144,14 @@ call matchadd('TrailingWhitespace', '\s\+$', 100)
 " Highlight commas with missing whitespace (for code linting)
 highlight CommaWhiteSpace ctermbg=magenta
 call matchadd('CommaWhiteSpace', ',\w', 100)
+augroup python_highlight
+    autocmd!
+    highlight PythonLineSpace ctermbg=magenta
+    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{2\}\(^def\|^class\|^@\)\@=', 100)
+    autocmd filetype python call matchadd('pythonlinespace', '\_.\@<=.\@<=$\n\{4,\}\(^def\|^class\|^@\)\@=', 100)
+    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{3,\}\(\s\+def\|\s\+class\|\s\+@\)\@=', 100)
+    autocmd FileType python call matchadd('PythonLineSpace', '#\S', 100)
+augroup END
 " Verical split
 set fillchars+=vert:\ 
 highlight VertSplit ctermfg=None ctermbg=None
@@ -162,12 +173,15 @@ highlight Folded ctermbg=NONE
 "   dictionary
 " - Pressing zw with the cursor over a word in normal mode will mark it as
 "   incorrect
-" Set spelling for markdown files
-autocmd FileType markdown setlocal spell spelllang=en_us
-" Set spelling for git commits
-autocmd FileType gitcommit setlocal spell spelllang=en_us
-" Set spelling for text files
-autocmd FileType text setlocal spell spelllang=en_us
+augroup spelling_highlight
+    autocmd!
+    " Set spelling for markdown files
+    autocmd FileType markdown setlocal spell spelllang=en_us
+    " Set spelling for git commits
+    autocmd FileType gitcommit setlocal spell spelllang=en_us
+    " Set spelling for text files
+    autocmd FileType text setlocal spell spelllang=en_us
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions
@@ -189,7 +203,10 @@ let save_cursor = getpos(".")
     call setpos('.', save_cursor)
     call setreg('/', old_query)
 endfun
-autocmd BufWritePre *.py,*.sh,*.robot,*.md :call CleanExtraSpaces()
+augroup clean_spaces
+    autocmd!
+    autocmd BufWritePre *.py,*.sh,*.robot,*.md :call CleanExtraSpaces()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unused (for reference)

@@ -36,15 +36,10 @@ parse_toml() {
         next="${headers[$i]}";
         # Use headers to match individual tables.
         #declare table=$(echo $lines | grep -oP "\[$h(\n|.)+?(?=(\[|\Z))");
-        if [[ "$next" ]]; then
-            declare table="$(echo "$lines" | \
-                tr "\n" " " | \
-                grep -oP "\[$h(\n|.)+?(?=(\[$next|\Z))")";
-        else
-            declare table="$(echo "$lines" | \
-                tr "\n" " " | \
-                grep -oP "\[$h(\n|.)+?(?=(\Z))")";
-        fi
+        declare table="$(echo "$lines" | \
+            tr "\n" " " | \
+            grep -oP "\[$h\].+?(?=(\[$next\]|\Z))" \
+        )";
         # Match strings on the left of `=` sign as variables.
         declare keys=($(\
             echo "$table" | \
@@ -52,11 +47,11 @@ parse_toml() {
             grep -oP "\S+\s?(?==)" | \
             grep -oP "\S.*" | grep -oP ".*\S" \
         ));
-        # Iterate through table string, matching everything between 
+        # Iterate through table string, matching everything between
         # key and following key as key value.
         for i in $(seq 1 ${#keys[@]}); do
             declare key="${keys[$((i-1))]}";
-            # 1. Use variable keys to match everything up to the next 
+            # 1. Use variable keys to match everything up to the next
             #    variable key as the variable value.
             # 2. Match everything to the right of the `=` sign.
             # 3. Remove leading/trailing whitespace.
@@ -70,6 +65,10 @@ parse_toml() {
                 grep -oP "(?<=\"|\'|\b).+(?=\"|\'|\b)" \
             )";
 
+            # Remove quotes from header names.
+            # Due to limitations of data types in bash (of which this script)
+            # is already exploiting, all tablenames are strings anyway.
+            h="$(echo "$h" | tr -d "\"\'")"
             if ! [[ "$val" ]]; then
                 # Don't save undefined variables.
                 continue;

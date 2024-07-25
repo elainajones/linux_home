@@ -150,7 +150,7 @@ augroup python_highlight
     autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{2\}\(^def\|^class\|^@\)\@=', 100)
     autocmd filetype python call matchadd('pythonlinespace', '\_.\@<=.\@<=$\n\{4,\}\(^def\|^class\|^@\)\@=', 100)
     autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{3,\}\(\s\+def\|\s\+class\|\s\+@\)\@=', 100)
-    autocmd FileType python call matchadd('PythonLineSpace', '\(^\|\s\)\@<=#\S', 100)
+    autocmd FileType python call matchadd('PythonLineSpace', '\(^\|\s\)\@<=#\w', 100)
 augroup END
 " Verical split
 set fillchars+=vert:\ 

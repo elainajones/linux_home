@@ -143,7 +143,7 @@ highlight TrailingWhitespace ctermbg=magenta
 call matchadd('TrailingWhitespace', '\s\+$', 100)
 " Highlight commas with missing whitespace (for code linting)
 highlight CommaWhiteSpace ctermbg=magenta
-call matchadd('CommaWhiteSpace', ',\w', 100)
+call matchadd('CommaWhiteSpace', ",\\(\\w\\|\"\\|\'\\)", 100)
 augroup python_highlight
     autocmd!
     highlight PythonLineSpace ctermbg=magenta

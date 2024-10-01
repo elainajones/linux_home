@@ -11,6 +11,8 @@ alias sba='source ~/.bash_aliases; exec bash'
 alias vba='vim ~/.bash_aliases'
 alias vsc='vim ~/.ssh/config'
 
+alias rkh='ssh-keygen -R'
+
 alias gpge='gpg --armour -e'
 
 # (un)mount mtp devices (ie Android)

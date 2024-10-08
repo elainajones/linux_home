@@ -42,9 +42,10 @@ set encoding=utf8
 " Gruvbox (colorscheme) config {{{
 " I honestly forgot what these are for
 set background=dark
-let g:gruvbox_transparent_bg = '1'
-let g:gruvbox_bold = '1'
-let g:gruvbox_italic = '1'
+set notermguicolors
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_bold=1
+let g:gruvbox_italic=1
 colorscheme gruvbox
 nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
 nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
@@ -70,10 +71,10 @@ nmap xecute "NERDTree"
 " GitGutter Colors {{{
 let g:gitgutter_override_sign_column_highlight = 0
 highlight clear SignColumn
-highlight GitGutterAdd ctermfg=2 ctermbg=none
-highlight GitGutterChange ctermfg=3 ctermbg=none
-highlight GitGutterDelete ctermfg=1 ctermbg=none
-highlight GitGutterChangeDelete ctermfg=4 ctermbg=none
+highlight GitGutterAdd ctermbg=NONE guibg=NONE "ctermfg=2
+highlight GitGutterChange ctermbg=NONE guibg=NONE "ctermfg=3
+highlight GitGutterDelete ctermbg=NONE guibg=NONE "ctermfg=1
+highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE "ctermfg=4
 " }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -121,48 +122,37 @@ set shiftwidth=4
 set smarttab
 set expandtab
 " Fix for Makefile tabs since it can be picky
-augroup make_tabs
-    autocmd!
-    autocmd FileType make setlocal noexpandtab
-augroup END
+autocmd FileType make setlocal noexpandtab
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Highlight config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Line number highlighting
-highlight LineNr ctermfg=darkgrey
+highlight LineNr ctermbg=NONE guibg=NONE "ctermfg=darkgrey guifg=darkgrey 
 highlight Normal guibg=NONE ctermbg=NONE
 " Cursor highlight
-highlight CursorLinenr ctermbg=None cterm=bold
-highlight CursorLine ctermbg=None
+highlight CursorLinenr ctermbg=NONE cterm=bold guibg=NONE gui=bold
+highlight CursorLine ctermbg=NONE guibg=NONE
 " Highlight columns over 80 chars
-highlight ColorColumn ctermbg=red
+highlight ColorColumn ctermbg=red guibg=red
 call matchadd('ColorColumn', '\%81v', 100)
 " Highlight trailing whitespace (for code linting)
-highlight TrailingWhitespace ctermbg=magenta
+highlight TrailingWhitespace ctermbg=magenta guibg=pink
 call matchadd('TrailingWhitespace', '\s\+$', 100)
 " Highlight commas with missing whitespace (for code linting)
-highlight CommaWhiteSpace ctermbg=magenta
-call matchadd('CommaWhiteSpace', ",\\(\\w\\|\"\\|\'\\)", 100)
-augroup python_highlight
-    autocmd!
-    highlight PythonLineSpace ctermbg=magenta
-    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{2\}\(^def\|^class\|^@\)\@=', 100)
-    autocmd filetype python call matchadd('pythonlinespace', '\_.\@<=.\@<=$\n\{4,\}\(^def\|^class\|^@\)\@=', 100)
-    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{3,\}\(\s\+def\|\s\+class\|\s\+@\)\@=', 100)
-    autocmd FileType python call matchadd('PythonLineSpace', '\(^\|\s\)\@<=#\w', 100)
-augroup END
+highlight CommaWhiteSpace ctermbg=magenta guibg=pink
+call matchadd('CommaWhiteSpace', ',\w', 100)
 " Verical split
 set fillchars+=vert:\ 
-highlight VertSplit ctermfg=None ctermbg=None
+highlight VertSplit ctermfg=darkgrey ctermbg=NONE guifg=darkgrey guibg=NONE
 " Spell check highlighting
 highlight clear SpellBad
-highlight SpellBad cterm=underline
+highlight SpellBad cterm=underline gui=underline
 " Highlight search results
 " Use marker as fold method (see Functions section)
 set foldtext=MyFoldText()
 set foldmethod=marker
-highlight Folded ctermbg=NONE
+highlight Folded ctermbg=NONE guibg=NONE
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell check
@@ -173,15 +163,12 @@ highlight Folded ctermbg=NONE
 "   dictionary
 " - Pressing zw with the cursor over a word in normal mode will mark it as
 "   incorrect
-augroup spelling_highlight
-    autocmd!
-    " Set spelling for markdown files
-    autocmd FileType markdown setlocal spell spelllang=en_us
-    " Set spelling for git commits
-    autocmd FileType gitcommit setlocal spell spelllang=en_us
-    " Set spelling for text files
-    autocmd FileType text setlocal spell spelllang=en_us
-augroup END
+" Set spelling for markdown files
+autocmd FileType markdown setlocal spell spelllang=en_us
+" Set spelling for git commits
+autocmd FileType gitcommit setlocal spell spelllang=en_us
+" Set spelling for text files
+autocmd FileType text setlocal spell spelllang=en_us
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions
@@ -203,10 +190,7 @@ let save_cursor = getpos(".")
     call setpos('.', save_cursor)
     call setreg('/', old_query)
 endfun
-augroup clean_spaces
-    autocmd!
-    autocmd BufWritePre *.py,*.sh,*.robot,*.md :call CleanExtraSpaces()
-augroup END
+autocmd BufWritePre *.py,*.sh,*.robot,*.md :call CleanExtraSpaces()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unused (for reference)

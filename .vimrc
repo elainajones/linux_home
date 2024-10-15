@@ -76,6 +76,13 @@ highlight GitGutterChange ctermbg=NONE guibg=NONE "ctermfg=3
 highlight GitGutterDelete ctermbg=NONE guibg=NONE "ctermfg=1
 highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE "ctermfg=4
 " }}}
+" Ale {{{
+let g:ale_linters = {'python': ['pycodestyle'], 'bash': ['cspell']}
+highlight ALEVirtualTextError ctermbg=none ctermfg=red
+highlight ALEVirtualTextWarning ctermbg=none ctermfg=yellow
+highlight ALEErrorSign ctermbg=none ctermfg=red
+highlight ALEWarningSign ctermbg=none ctermfg=yellow
+" }}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keymapping

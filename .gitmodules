@@ -16,3 +16,6 @@
 [submodule ".vim/pack/default/start/ale"]
 	path = .vim/pack/default/start/ale
 	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/default/start/vim-fugitive"]
+	path = .vim/pack/default/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git

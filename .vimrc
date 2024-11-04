@@ -7,7 +7,7 @@ syntax enable
 " like <leader>w saves the current file
 let mapleader = ","
 " Do not visually wrap lines (easier for split pane work)
-set wrap
+set nowrap
 set nocompatible
 " Fix for starting in replace mode.
 set t_u7=

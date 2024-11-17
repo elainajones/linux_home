@@ -148,15 +148,6 @@ highlight TrailingWhitespace ctermbg=magenta guibg=pink
 call matchadd('TrailingWhitespace', '\s\+$', 100)
 " Highlight commas with missing whitespace (for code linting)
 highlight CommaWhiteSpace ctermbg=magenta guibg=pink
-call matchadd('CommaWhiteSpace', ",\\(\\w\\|\"\\|\'\\)", 100)
-augroup python_highlight
-    autocmd!
-    highlight PythonLineSpace ctermbg=magenta
-    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{2\}\(^def\|^class\|^@\)\@=', 100)
-    autocmd filetype python call matchadd('pythonlinespace', '\_.\@<=.\@<=$\n\{4,\}\(^def\|^class\|^@\)\@=', 100)
-    autocmd FileType python call matchadd('PythonLineSpace', '\_.\@<=.\@<=$\n\{3,\}\(\s\+def\|\s\+class\|\s\+@\)\@=', 100)
-    autocmd FileType python call matchadd('PythonLineSpace', '\(^\|\s\)\@<=#\w', 100)
-augroup END
 " Verical split
 set fillchars+=vert:\ 
 highlight VertSplit ctermfg=darkgrey ctermbg=NONE guifg=darkgrey guibg=NONE

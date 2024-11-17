@@ -200,31 +200,3 @@ augroup clean_spaces
     autocmd!
     autocmd BufWritePre *.py,*.sh,*.robot,*.md,*.txt :call CleanExtraSpaces()
 augroup END
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Unused (for reference)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Lightline-like configs: {{{
-"" Show the current mode
-"set showmode
-"" Show EOL type and last modified timestamp, right after the filename
-"" Set the statusline...
-"" ...filename relative to current $PWD
-"set statusline=%f
-"" ...help file flag
-"set statusline+=%h
-"" ...modified flag
-"set statusline+=%m
-"" ...readonly flag
-"set statusline+=%r
-"" ...fileformat [unix]/[dos] etc...
-"set statusline+=\ [%{&ff}]
-"" ...last modified timestamp
-"set statusline+=\ (%{strftime(\"%H:%M\ %d/%m/%Y\",getftime(expand(\"%:p\")))})
-"" ...Rest: right align
-"set statusline+=%=
-"" ...position in buffer: linenumber, column, virtual column
-"set statusline+=%l,%c%V
-"" ...position in buffer: Percentage
-"set statusline+=\ %P
-"}}}

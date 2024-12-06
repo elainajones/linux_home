@@ -1,3 +1,7 @@
+[credential]
+    # Might be needed for Windows to force use of .git-credentials
+    # if ssh key auth is not permitted by policy.
+	helper = store
 [user]
 	email = 133198355+elainajones@users.noreply.github.com 
 	name = Elaina Jones

@@ -169,12 +169,13 @@ highlight Folded ctermbg=NONE guibg=NONE
 "   dictionary
 " - Pressing zw with the cursor over a word in normal mode will mark it as
 "   incorrect
-" Set spelling for markdown files
-autocmd FileType markdown setlocal spell spelllang=en_us
-" Set spelling for git commits
-autocmd FileType gitcommit setlocal spell spelllang=en_us
-" Set spelling for text files
-autocmd FileType text setlocal spell spelllang=en_us
+set spell spelllang=en_us
+"" Set spelling for markdown files
+"autocmd FileType markdown setlocal spell spelllang=en_us
+"" Set spelling for git commits
+"autocmd FileType gitcommit setlocal spell spelllang=en_us
+"" Set spelling for text files
+"autocmd FileType text setlocal spell spelllang=en_us
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions

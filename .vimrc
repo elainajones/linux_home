@@ -135,7 +135,7 @@ autocmd FileType make setlocal noexpandtab
 " Highlight config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Line number highlighting
-highlight LineNr ctermbg=NONE guibg=NONE "ctermfg=darkgrey guifg=darkgrey 
+highlight LineNr ctermbg=NONE guibg=NONE "ctermfg=darkgrey guifg=darkgrey
 highlight Normal guibg=NONE ctermbg=NONE
 " Cursor highlight
 highlight CursorLinenr ctermbg=NONE cterm=bold guibg=NONE gui=bold
@@ -159,6 +159,11 @@ highlight SpellBad cterm=underline gui=underline
 set foldtext=MyFoldText()
 set foldmethod=marker
 highlight Folded ctermbg=NONE guibg=NONE
+augroup commit_highlight
+    autocmd!
+    highlight ConventionalCommits ctermbg=magenta
+    autocmd FileType gitcommit call matchadd('ConventionalCommits', '\%^\(\(fix\|feat\|build\|chore\|ci\|docs\|style\|refactor\|perf\|test\)\>\)\@!.*:', 100)
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell check
@@ -176,7 +181,6 @@ set spell spelllang=en_us
 "autocmd FileType gitcommit setlocal spell spelllang=en_us
 "" Set spelling for text files
 "autocmd FileType text setlocal spell spelllang=en_us
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -6,6 +6,7 @@ alias c='clear'
 alias la='ls -AX --color --classify --group-directories-first'
 alias lla='ls -lAshLX --color --classify --group-directories-first'
 alias les='less -~KMQR-'
+alias lsd='ls -d */'
 
 alias sba='source ~/.bash_aliases; exec bash'
 alias vba='vim ~/.bash_aliases'

@@ -77,7 +77,7 @@ highlight GitGutterDelete ctermbg=NONE guibg=NONE "ctermfg=1
 highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE "ctermfg=4
 " }}}
 " Ale {{{
-let g:ale_linters = {'python': ['pycodestyle'], 'bash': ['cspell']}
+let g:ale_linters = {'python': ['pycodestyle', 'flake8'], 'bash': ['cspell']}
 highlight ALEVirtualTextError ctermbg=none ctermfg=red
 highlight ALEVirtualTextWarning ctermbg=none ctermfg=yellow
 highlight ALEErrorSign ctermbg=none ctermfg=red

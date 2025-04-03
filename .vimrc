@@ -203,5 +203,5 @@ let save_cursor = getpos(".")
 endfun
 augroup clean_spaces
     autocmd!
-    autocmd BufWritePre *.py,*.sh,*.robot,*.md,*.txt :call CleanExtraSpaces()
+    autocmd BufWritePre *.py,*.sh,*.robot,*.txt :call CleanExtraSpaces()
 augroup END

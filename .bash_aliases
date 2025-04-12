@@ -24,13 +24,9 @@ alias oprts='sudo netstat -ntupl'
 
 alias ghist='history | grep'
 alias gba='grep -P "^alias" ~/.bash_aliases'
+alias grepin='grep --exclude-dir=.venv --exclude-dir=venv --exclude-dir=__pycache__ --exclude-dir=.git -RniIP'
 
 # Functions:
-# grepin {{{
-grepin() {
-    declare pattern="$1";
-    grep -Rinw "." -e "$pattern";
-}
 # }}}
 # passgen {{{
 passgen() {

@@ -77,7 +77,17 @@ highlight GitGutterDelete ctermbg=NONE guibg=NONE "ctermfg=1
 highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE "ctermfg=4
 " }}}
 " Ale {{{
-let g:ale_linters = {'python': ['pycodestyle', 'flake8'], 'bash': ['cspell']}
+let g:ale_lint_delay=0
+let g:ale_linters = {'python': ['pylint', 'flake8'], 'bash': ['cspell']}
+
+let g:ale_python_flake8_options="--ignore E501,F403,F405,E722"
+let g:ale_python_pylint_options="--jobs 4 -E --disable E0401"
+" Enable if performance is poor
+let g:ale_linters_explicit = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_insert_leave = 1
+let g:ale_warn_about_trailing_whitespace = 0
+"let g:ale_lint_on_text_changed = 'never'
 highlight ALEVirtualTextError ctermbg=none ctermfg=red
 highlight ALEVirtualTextWarning ctermbg=none ctermfg=yellow
 highlight ALEErrorSign ctermbg=none ctermfg=red

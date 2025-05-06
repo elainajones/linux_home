@@ -13,6 +13,7 @@ alias vba='vim ~/.bash_aliases'
 alias vsc='vim ~/.ssh/config'
 
 alias rkh='ssh-keygen -R'
+alias pyclean='find . -type d -name "__pycache__" -exec rm -r {} \; &> /dev/null'
 
 alias gpge='gpg --armour -e'
 
@@ -24,10 +25,9 @@ alias oprts='sudo netstat -ntupl'
 
 alias ghist='history | grep'
 alias gba='grep -P "^alias" ~/.bash_aliases'
-alias grepin='grep --exclude-dir=.venv --exclude-dir=venv --exclude-dir=__pycache__ --exclude-dir=.git -RniIP'
+alias grepin='grep --exclude=*xml --exclude=*html --exclude-dir=.venv --exclude-dir=venv --exclude-dir=__pycache__ --exclude-dir=.git -RniIP'
 
 # Functions:
-# }}}
 # passgen {{{
 passgen() {
     declare pw_len=${1:-20};
@@ -232,6 +232,7 @@ md2pdf() {
 #alias p='/mnt/c/Program\ Files/PowerShell/7/pwsh.exe'
 #alias e='/mnt/c/Windows/explorer.exe .'
 #alias npp='/mnt/c/Program\ Files/Notepad++/notepad++.exe'
+#alias wsl='' # Noop to avoid muscle memory errors
 #wmv() {
 #    temp="$(mktemp -d -p /mnt/c/Users/v-elajones/AppData/Local/Temp/)";
 #    cp -rpT $PWD $temp;

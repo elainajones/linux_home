@@ -19,3 +19,6 @@
 [submodule ".vim/pack/default/start/vim-fugitive"]
 	path = .vim/pack/default/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/pack/default/start/supertab"]
+	path = .vim/pack/default/start/supertab
+	url = https://github.com/ervandew/supertab.git

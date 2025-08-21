@@ -16,6 +16,7 @@ alias rkh='ssh-keygen -R'
 alias pyclean='find . -type d -name "__pycache__" -exec rm -r {} \; &> /dev/null'
 
 alias gpge='gpg --armour -e'
+alias ipleak='curl https://ipleak.net/json/'
 
 # (un)mount mtp devices (ie Android)
 alias mmtp='jmtpfs ~/mtp && echo Device mounted at ~/mtp/ && thunar ~/mtp/'

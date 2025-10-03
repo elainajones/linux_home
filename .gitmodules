@@ -22,3 +22,6 @@
 [submodule ".vim/pack/default/start/supertab"]
 	path = .vim/pack/default/start/supertab
 	url = https://github.com/ervandew/supertab.git
+[submodule ".vim/pack/default/start/vim-gutentags"]
+	path = .vim/pack/default/start/vim-gutentags
+	url = https://github.com/ludovicchabant/vim-gutentags.git

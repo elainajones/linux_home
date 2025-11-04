@@ -13,6 +13,11 @@ emerge --ask \
     net-analyzer/nmap \
     app-text/dos2unix \
     app-portage/gentoolkit \
+    media-fonts/noto-emoji \
+    media-fonts/noto \
+    media-fonts/fontawesome \
+    media-fonts/liberation-fonts \
+    media-fonts/dejavu \
     dev-util/ctags
     # dev-lang/go
 

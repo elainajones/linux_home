@@ -129,6 +129,18 @@ map <C-k> <C-W>k
 map <C-l> <C-W>l
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
+" New tab
+nnoremap tn :tabnew<CR>
+" Open definition in new split
+nnoremap <C-\> :vsp<CR>:exec("tag ".expand("<cword>"))<CR>
+" Open definition in new tab
+nnoremap ? :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+" Navigate between tabs
+nnoremap <S-h> :tabprevious<CR>
+nnoremap <S-l> :tabnext<CR>
+" Move tabs
+nnoremap <silent> <Tab>h :tabm -1<CR>
+nnoremap <silent> <Tab>l :tabm +1<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabs

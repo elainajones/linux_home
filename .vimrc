@@ -134,7 +134,7 @@ nnoremap tn :tabnew<CR>
 " Open definition in new split
 nnoremap <C-\> :vsp<CR>:exec("tag ".expand("<cword>"))<CR>
 " Open definition in new tab
-nnoremap ? :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+nnoremap \| :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 " Navigate between tabs
 nnoremap <S-h> :tabprevious<CR>
 nnoremap <S-l> :tabnext<CR>
